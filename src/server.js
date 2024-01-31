@@ -6,7 +6,7 @@ const ClientError = require("./exceptions/ClientError");
 
 //Notes
 const notes = require("./api/notes");
-const NotesService = require("./services/inMemory/NotesService");
+const NotesService = require("./services/postgres/NotesService");
 const NotesValidator = require("./validator/notes");
 
 // users
@@ -46,7 +46,7 @@ const init = async () => {
  
   // mendefinisikan strategy autentikasi jwt
   server.auth.strategy('notesapp_jwt', 'jwt', {
-    keys: process.env.ACCESS_TOKEN_KEY,
+    keys: [process.env.ACCESS_TOKEN_KEY],
     verify: {
       aud: false,
       iss: false,

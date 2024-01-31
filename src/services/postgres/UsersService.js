@@ -30,7 +30,7 @@ class UsersService {
     return id;
   }
 
-  async addUser({ username, password, fullname }) {
+  async addUser({ username, fullname, password }) {
     await this.verifyNewUsername(username);
 
     const id = `user-${nanoid(16)}`;
