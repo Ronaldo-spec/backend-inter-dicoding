@@ -10,6 +10,21 @@ class NotesService {
     this._pool = new Pool();
   }
 
+  async verifyNoteAccess(noteId, userId) {
+    try {
+      await this.verifyNoteOwner(noteId, userId);
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      try {
+        await this._collaborationService.verifyCollaborator(noteId, userId);
+      } catch {
+        throw error;
+      }
+    }
+  }
+
   async verifyNoteOwner(id, owner) {
     const query = {
       text: "SELECT * FROM notes WHERE id = $1",
